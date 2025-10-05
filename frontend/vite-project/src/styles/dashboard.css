@@ -1,0 +1,115 @@
+/* Nexus Dashboard Styles (from provided design) */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+:root { --primary:#6366f1; --primary-dark:#4f46e5; --secondary:#10b981; --dark:#1e293b; --light:#f8fafc; --gray:#64748b; --gray-light:#e2e8f0; --danger:#ef4444; --warning:#f59e0b; }
+body.nexus { background: linear-gradient(135deg,#0f172a,#1e293b); color: var(--light); min-height: 100vh; }
+
+.nx-container { display:flex; flex:1; max-width:1400px; margin:0 auto; padding:20px; gap:20px; }
+.nx-header { background: rgba(30,41,59,0.8); backdrop-filter: blur(10px); padding:15px 30px; border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center; }
+.nx-logo { display:flex; align-items:center; gap:10px; font-size:1.5rem; font-weight:700; }
+.nx-logo i { color: var(--primary);} 
+.nx-user { display:flex; align-items:center; gap:15px; }
+.nx-avatar { width:40px; height:40px; border-radius:50%; background: var(--primary); display:flex; align-items:center; justify-content:center; font-weight:bold; }
+
+/* Top nav pills under header (like screenshot) */
+.nx-topnav{ max-width:1400px; margin:12px auto 0; padding:0 20px; }
+.nx-pills{ display:flex; gap:12px; flex-wrap:wrap; background: rgba(30,41,59,0.6); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:10px; }
+.nx-pill{ display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:10px; color:#cbd5e1; background: transparent; border:1px solid transparent; cursor:pointer; transition: all .2s; }
+.nx-pill i{ width:18px; text-align:center; }
+.nx-pill:hover{ background: rgba(99,102,241,0.12); color:#fff; }
+.nx-pill.active{ background: linear-gradient(135deg, rgba(99,102,241,0.25), rgba(99,102,241,0.12)); border:1px solid rgba(99,102,241,0.45); color:#fff; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06); }
+
+/* Sidebar */
+.nx-sidebar { width:250px; background: rgba(30,41,59,0.7); border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:10px; }
+.nx-nav-item { display:flex; align-items:center; gap:12px; padding:12px 15px; border-radius:10px; cursor:pointer; transition:all .3s; }
+.nx-nav-item:hover, .nx-nav-item.active { background: rgba(99,102,241,0.2); color: var(--primary);} 
+.nx-nav-item i { width:20px; text-align:center; }
+
+/* Main */
+.nx-main { flex:1; display:flex; flex-direction:column; gap:20px; }
+.nx-welcome { background: rgba(30,41,59,0.7); border-radius:16px; padding:25px; display:flex; flex-direction:column; gap:15px; }
+.nx-welcome h1 { font-size:1.8rem; font-weight:600; }
+.nx-welcome p { color: var(--gray-light); line-height:1.6; }
+.nx-actions { display:grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap:15px; margin-top:10px; }
+.nx-action { background: rgba(99,102,241,0.1); border:1px solid rgba(99,102,241,0.3); border-radius:12px; padding:12px 15px; display:flex; align-items:center; gap:10px; cursor:pointer; transition:all .3s; }
+.nx-action:hover { background: rgba(99,102,241,0.2); transform: translateY(-2px); }
+
+.nx-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap:20px; }
+.nx-grid.nx-row-3 { grid-template-columns: repeat(3, 1fr); }
+.nx-card { background: rgba(30,41,59,0.7); border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:15px; }
+.nx-card-header { display:flex; justify-content:space-between; align-items:center; }
+.nx-card-title { font-size:1.2rem; font-weight:600; }
+
+/* Light variant for mixed white/blue aesthetic */
+.nx-card--light { background: #ffffff; color: #0f172a; box-shadow: 0 8px 24px rgba(2,6,23,0.12); border: 1px solid #e5e7eb; }
+.nx-card--light .nx-task { background: #f8fafc; }
+.nx-card--light .nx-task-text { color: #0f172a; }
+.nx-card--light .nx-card-title { color: #0f172a; }
+
+/* New: lighter blue surface variant (requested) */
+:root{ --surface-blue:#1b2a52; --surface-blue-2:#203764; }
+.nx-card--lightblue{ background: linear-gradient(180deg, rgba(99,102,241,0.12), rgba(12,20,46,0.35)); border:1px solid rgba(99,102,241,0.22); box-shadow: 0 10px 30px rgba(2,6,23,0.25); }
+.nx-card--lightblue .nx-card-title{ color:#e5e7eb; }
+.nx-card--lightblue .nx-task{ background: rgba(255,255,255,0.04); }
+.nx-card--lightblue .nx-cal-day{ background: rgba(255,255,255,0.04); color:#e5e7eb; }
+.nx-card--lightblue .nx-cal-day.today{ background: var(--primary); color:#fff; }
+
+/* Tasks */
+.nx-task-list { display:flex; flex-direction:column; gap:12px; }
+.nx-task { display:flex; align-items:center; gap:12px; padding:10px; border-radius:10px; background: rgba(255,255,255,0.05); }
+.nx-task input[type="checkbox"]{ width:18px; height:18px; accent-color: var(--primary);} 
+.nx-task-text{ flex:1; }
+.nx-task-completed{ text-decoration: line-through; opacity:.7; }
+
+/* Calendar */
+.nx-cal-grid{ display:grid; grid-template-columns: repeat(7,1fr); gap:8px; }
+.nx-cal-day{ aspect-ratio:1; display:flex; align-items:center; justify-content:center; border-radius:8px; font-size:.9rem; position:relative; }
+.nx-cal-day.other{ opacity:.3; }
+.nx-cal-day.today{ background: var(--primary); font-weight:bold; }
+.nx-cal-day.has-event::after{ content:''; position:absolute; bottom:4px; width:4px; height:4px; border-radius:50%; background: var(--secondary);} 
+
+/* Light card calendar tweaks */
+.nx-card--light .nx-cal-day{ background:#f8fafc; color:#0f172a; }
+.nx-card--light .nx-cal-day.today{ color:#fff; }
+
+/* Health */
+.nx-stats{ display:flex; flex-direction:column; gap:15px; }
+.nx-stat{ display:flex; justify-content:space-between; align-items:center; }
+.nx-bar{ height:8px; background: rgba(255,255,255,0.1); border-radius:4px; overflow:hidden; flex:1; margin:0 15px; }
+.nx-fill{ height:100%; border-radius:4px; }
+.nx-sleep{ width:75%; background: var(--primary);} 
+.nx-steps{ width:60%; background: var(--secondary);} 
+.nx-hydr{ width:45%; background:#3b82f6; }
+
+/* Chat panel summary */
+.nx-chat{ width:350px; display:flex; flex-direction:column; background: rgba(30,41,59,0.7); border-radius:16px; overflow:hidden; }
+.nx-chat--fullwidth{ width:100%; margin-top:20px; }
+.nx-chat-head{ padding:20px; border-bottom:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; gap:10px; }
+.nx-ai{ width:40px; height:40px; border-radius:50%; background: linear-gradient(135deg,var(--primary),var(--secondary)); display:flex; align-items:center; justify-content:center; }
+.nx-chat-msgs{ flex:1; padding:20px; display:flex; flex-direction:column; gap:15px; overflow-y:auto; max-height:400px; }
+.nx-msg{ max-width:80%; padding:12px 16px; border-radius:18px; line-height:1.4; }
+.nx-msg.user{ align-self:flex-end; background: var(--primary); border-bottom-right-radius:4px; }
+.nx-msg.ai{ align-self:flex-start; background: rgba(255,255,255,0.1); border-bottom-left-radius:4px; }
+.nx-chat-input{ padding:15px; border-top:1px solid rgba(255,255,255,0.1); display:flex; gap:10px; }
+.nx-chat-input input{ flex:1; background: rgba(255,255,255,0.1); border:none; border-radius:20px; padding:12px 20px; color:white; outline:none; }
+.nx-send{ width:44px; height:44px; border-radius:50%; background: var(--primary); border:none; color:white; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .3s; }
+.nx-send:hover{ background: var(--primary-dark); transform: scale(1.05); }
+
+/* Light chat panel variant */
+.nx-chat--light{ background:#ffffff; color:#0f172a; box-shadow: 0 8px 24px rgba(2,6,23,0.12); border:1px solid #e5e7eb; }
+.nx-chat--light .nx-chat-head{ border-color:#e5e7eb; }
+.nx-chat--light .nx-msg.ai{ background:#f1f5f9; color:#0f172a; }
+.nx-chat--light .nx-chat-input{ border-top:1px solid #e5e7eb; }
+.nx-chat--light .nx-chat-input input{ background:#f1f5f9; color:#0f172a; }
+
+/* New: lighter blue chat variant */
+.nx-chat--lightblue{ background: linear-gradient(180deg, rgba(99,102,241,0.14), rgba(12,20,46,0.4)); border:1px solid rgba(99,102,241,0.25); box-shadow: 0 10px 30px rgba(2,6,23,0.25); }
+.nx-chat--lightblue .nx-chat-head{ border-color: rgba(255,255,255,0.08); }
+.nx-chat--lightblue .nx-msg.ai{ background: rgba(255,255,255,0.08); color:#e5e7eb; }
+.nx-chat--lightblue .nx-chat-input{ border-top:1px solid rgba(255,255,255,0.08); }
+.nx-chat--lightblue .nx-chat-input input{ background: rgba(255,255,255,0.08); color:#e5e7eb; }
+
+.nx-footer{ text-align:center; padding:20px; color: var(--gray); font-size:.9rem; border-top:1px solid rgba(255,255,255,0.1); margin-top:30px; }
+
+/* Responsive */
+@media (max-width:1100px){ .nx-container{ flex-direction:column; } .nx-sidebar{ width:100%; flex-direction:row; overflow-x:auto; } .nx-nav-item{ white-space:nowrap; } .nx-chat{ width:100%; } }
+@media (max-width:768px){ .nx-grid{ grid-template-columns:1fr; } .nx-actions{ grid-template-columns:1fr 1fr; } }
