@@ -1,6 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import helmet from 'helmet';
+import compression from 'compression';
+import rateLimit from 'express-rate-limit';
 import connectDB from './config/connectDB.js';
 import authRoutes from './routes/auth.Routes.js';
 import pluginRoutes from './routes/plugin.Routes.js';   
@@ -16,6 +19,8 @@ import webhookRoutes from './routes/webhook.Routes.js';
 
 dotenv.config();
 const app = express();
+app.disable('x-powered-by');
+app.set('trust proxy', 1);
 
 await connectDB();
 
@@ -27,6 +32,15 @@ app.use(cors({
     origin: process.env.CLIENT_URL || 'http://localhost:5173',
     credentials: true,  
 }));
+app.use(helmet());
+app.use(compression());
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use('/api', apiLimiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -41,6 +55,7 @@ app.use('/api/v1/tasks', tasksRoutes);
 app.use('/api/v1/schedule', scheduleRoutes);
 app.use('/api/v1/expenses', expensesRoutes);
 app.use('/api/v1/integrations', webhookRoutes);
+app.get('/healthz', (req, res) => res.json({ status: 'ok' }));
         
 app.all('*', (req, res) => {
     res.status(404).json({
@@ -49,17 +64,16 @@ app.all('*', (req, res) => {
     })
 });
 
-// app.use((err, req, res, next) => {
-//   console.error('Error:', err.stack);
-
-//   err.statusCode = err.statusCode || 500;
-//   err.status = err.status || 'error';
-//   res.status(err.statusCode).json({
-//     status: err.status,
-//     message: err.message,
-//     ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
-//   });
-// });
+app.use((err, req, res, next) => {
+  console.error('Error:', err?.stack || err);
+  const statusCode = err?.statusCode || 500;
+  const status = err?.status || 'error';
+  res.status(statusCode).json({
+    status,
+    message: err?.message || 'Internal Server Error',
+    ...(process.env.NODE_ENV === 'development' && { stack: err?.stack })
+  });
+});
 
 const PORT = process.env.PORT || 4500;
 app.listen(PORT, () => {

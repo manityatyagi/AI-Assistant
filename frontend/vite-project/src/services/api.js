@@ -1,8 +1,9 @@
 import axios from 'axios';
 import router from '../utils/router';
 
+const apiBase = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:4500/api/v1',
+  baseURL: apiBase ? `${apiBase}` : 'http://localhost:4500/api/v1',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json'
