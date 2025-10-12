@@ -1,7 +1,7 @@
 function App() {
 
   return (
-   <div>AI-ASSITANT</div>
+   <div>AI-ASSISTANT</div>
   )
 }
 

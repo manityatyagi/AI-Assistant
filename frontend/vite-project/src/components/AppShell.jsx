@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import '../styles/dashboard.css'
+import ThemeToggle from './ui/ThemeToggle.jsx'
 
 const AppShell = () => {
   const navigate = useNavigate()
   const { user, token } = useSelector(s => s.auth)
+  const location = useLocation()
   useEffect(() => {
     document.body.classList.add('nexus')
     return () => document.body.classList.remove('nexus')
@@ -19,6 +21,7 @@ const AppShell = () => {
           <span>Nexus AI</span>
         </div>
         <div className="nx-user">
+          <ThemeToggle />
           {token ? (
             <>
               <div className="nx-avatar">{(user?.name || 'U').slice(0,2).toUpperCase()}</div>
@@ -32,12 +35,12 @@ const AppShell = () => {
 
       <div className="nx-topnav">
         <div className="nx-pills">
-          <div className="nx-pill active" onClick={()=>navigate('/') }><i className="fas fa-home"></i>Dashboard</div>
-          <div className="nx-pill" onClick={()=>navigate('/tasks')}><i className="fas fa-tasks"></i>Tasks & Productivity</div>
-          <div className="nx-pill" onClick={()=>navigate('/schedule')}><i className="fas fa-calendar-alt"></i>Schedule</div>
-          <div className="nx-pill" onClick={()=>navigate('/health')}><i className="fas fa-heartbeat"></i>Health & Wellness</div>
-          <div className="nx-pill" onClick={()=>navigate('/finance')}><i className="fas fa-wallet"></i>Finance</div>
-          <div className="nx-pill" onClick={()=>navigate('/settings')}><i className="fas fa-cog"></i>Settings</div>
+          <div className={`nx-pill ${location.pathname==='/'?'active':''}`} onClick={()=>navigate('/') }><i className="fas fa-home"></i>Dashboard</div>
+          <div className={`nx-pill ${location.pathname.startsWith('/tasks')?'active':''}`} onClick={()=>navigate('/tasks')}><i className="fas fa-tasks"></i>Tasks & Productivity</div>
+          <div className={`nx-pill ${location.pathname.startsWith('/schedule')?'active':''}`} onClick={()=>navigate('/schedule')}><i className="fas fa-calendar-alt"></i>Schedule</div>
+          <div className={`nx-pill ${location.pathname.startsWith('/health')?'active':''}`} onClick={()=>navigate('/health')}><i className="fas fa-heartbeat"></i>Health & Wellness</div>
+          <div className={`nx-pill ${location.pathname.startsWith('/finance')?'active':''}`} onClick={()=>navigate('/finance')}><i className="fas fa-wallet"></i>Finance</div>
+          <div className={`nx-pill ${location.pathname.startsWith('/settings')?'active':''}`} onClick={()=>navigate('/settings')}><i className="fas fa-cog"></i>Settings</div>
         </div>
       </div>
 
