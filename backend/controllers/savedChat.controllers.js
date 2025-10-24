@@ -1,23 +1,15 @@
-import { pc } from '../services/pinecone.js';
-import { OpenAIEmbeddings } from "@langchain/openai";
-
-const pinecone = pc;
-await pinecone.init({
-    apiKey: process.env.PINECONE_API_KEY,
-    environment: process.env.PINECONE_ENV
-});
+import { pc, getIndex } from '../services/pinecone.js';
+import { OpenAIEmbeddings } from '@langchain/openai';
 
 const indexName = 'chat-sessions';
-const embeddings = new OpenAIEmbeddings({
-    openAIApiKey: process.env.OPENAI_API_KEY
-});
+const embeddings = new OpenAIEmbeddings({ apiKey: process.env.OPENAI_API_KEY });
 
 const searchConversation = async(req, res) => {
     try {
         const {query, conversationId} = req.body;
 
         const queryEmbedding = await embeddings.embedQuery(query);
-        const index = pinecone.Index(indexName);
+        const index = await getIndex(indexName);
         const results = await index.query({
             topK: 5,
             vector: queryEmbedding,
@@ -46,7 +38,7 @@ const flagImportantMessage = async(req, res) => {
     try {
         const { messageId, conversationId} = req.body;
 
-        const index = pinecone.Index(indexName);
+        const index = await getIndex(indexName);
         await index.update({
             id: messageId,
             setMetadata: {
