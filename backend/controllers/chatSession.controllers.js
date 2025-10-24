@@ -73,20 +73,24 @@ export const sendMessage = async (req, res) => {
     };
     conversation.messages.push(message);
 
-    await ensureIndex();
-    const index = getIndex();
-    const vector = await embeddings.embedQuery(text);
-    await index.namespace(VECTOR_NAMESPACE).upsert([
-      {
-        id: message.id,
-        values: vector,
-        metadata: {
-          conversationId: id,
-          text,
-          isUserMessage: true,
+    try {
+      await ensureIndex();
+      const index = await getIndex();
+      const vector = await embeddings.embedQuery(text);
+      await index.namespace(VECTOR_NAMESPACE).upsert([
+        {
+          id: message.id,
+          values: vector,
+          metadata: {
+            conversationId: id,
+            text,
+            isUserMessage: true,
+          },
         },
-      },
-    ]);
+      ]);
+    } catch (e) {
+      console.warn('Vector upsert skipped:', e.message);
+    }
 
     res.json({ response: response.response, messageId: message.id });
   } catch (error) {

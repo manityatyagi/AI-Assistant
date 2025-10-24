@@ -29,11 +29,11 @@ function extractText(output) {
 }
 
 export function buildAssistantGraph() {
-  const llm = new ChatGoogleGenerativeAI({
-    model: process.env.GEMINI_MODEL || 'gemini-1.5-flash',
-    apiKey: process.env.GOOGLE_API_KEY,
-    temperature: 0.3,
-  });
+  const apiKey = process.env.GOOGLE_API_KEY;
+  const model = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+  const llm = apiKey
+    ? new ChatGoogleGenerativeAI({ model, apiKey, temperature: 0.3 })
+    : { invoke: async (input) => `Chat assistant (offline): ${input}` };
   const graph = new StateGraph({
     channels: {
       input: null,
@@ -64,7 +64,8 @@ export function buildAssistantGraph() {
 
   graph.addNode('chat', async (state) => {
     const resp = await llm.invoke(state.input);
-    return { result: extractText(resp) };
+    const text = typeof resp === 'string' ? resp : extractText(resp);
+    return { result: text };
   });
 
   graph.addEdge('__start__', 'router');
