@@ -1,15 +1,25 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { logout } from '../store/slices/auth.slice.js'
 import '../styles/dashboard.css'
 
 const AppShell = () => {
   const navigate = useNavigate()
+  const location = useLocation()
+  const dispatch = useDispatch()
   const { user, token } = useSelector(s => s.auth)
   useEffect(() => {
     document.body.classList.add('nexus')
     return () => document.body.classList.remove('nexus')
   }, [])
+
+  const isActive = (path) => location.pathname === path
+
+  const onLogout = () => {
+    dispatch(logout())
+    navigate('/login', { replace: true })
+  }
 
   return (
     <div>
@@ -23,6 +33,9 @@ const AppShell = () => {
             <>
               <div className="nx-avatar">{(user?.name || 'U').slice(0,2).toUpperCase()}</div>
               <div>{user?.name || 'You'}</div>
+              <button onClick={onLogout} className="nx-pill" style={{ border:'1px solid rgba(255,255,255,.15)' }}>
+                <i className="fas fa-right-from-bracket"></i> Logout
+              </button>
             </>
           ) : (
             <div style={{fontSize:'.9rem', opacity:.8}}>Guest</div>
@@ -32,12 +45,12 @@ const AppShell = () => {
 
       <div className="nx-topnav">
         <div className="nx-pills">
-          <div className="nx-pill active" onClick={()=>navigate('/') }><i className="fas fa-home"></i>Dashboard</div>
-          <div className="nx-pill" onClick={()=>navigate('/tasks')}><i className="fas fa-tasks"></i>Tasks & Productivity</div>
-          <div className="nx-pill" onClick={()=>navigate('/schedule')}><i className="fas fa-calendar-alt"></i>Schedule</div>
-          <div className="nx-pill" onClick={()=>navigate('/health')}><i className="fas fa-heartbeat"></i>Health & Wellness</div>
-          <div className="nx-pill" onClick={()=>navigate('/finance')}><i className="fas fa-wallet"></i>Finance</div>
-          <div className="nx-pill" onClick={()=>navigate('/settings')}><i className="fas fa-cog"></i>Settings</div>
+          <div className={`nx-pill ${isActive('/') ? 'active' : ''}`} onClick={()=>navigate('/') }><i className="fas fa-home"></i>Dashboard</div>
+          <div className={`nx-pill ${isActive('/tasks') ? 'active' : ''}`} onClick={()=>navigate('/tasks')}><i className="fas fa-tasks"></i>Tasks & Productivity</div>
+          <div className={`nx-pill ${isActive('/schedule') ? 'active' : ''}`} onClick={()=>navigate('/schedule')}><i className="fas fa-calendar-alt"></i>Schedule</div>
+          <div className={`nx-pill ${isActive('/health') ? 'active' : ''}`} onClick={()=>navigate('/health')}><i className="fas fa-heartbeat"></i>Health & Wellness</div>
+          <div className={`nx-pill ${isActive('/finance') ? 'active' : ''}`} onClick={()=>navigate('/finance')}><i className="fas fa-wallet"></i>Finance</div>
+          <div className={`nx-pill ${isActive('/settings') ? 'active' : ''}`} onClick={()=>navigate('/settings')}><i className="fas fa-cog"></i>Settings</div>
         </div>
       </div>
 
@@ -51,10 +64,10 @@ const AppShell = () => {
                 : "Sign in to unlock personalized tasks, schedule, and calendar widgets."}
             </p>
             <div className="nx-actions">
-              <div className="nx-action"><i className="fas fa-plus"></i><span>Add Task</span></div>
-              <div className="nx-action"><i className="fas fa-calendar-plus"></i><span>Schedule Event</span></div>
-              <div className="nx-action"><i className="fas fa-utensils"></i><span>Plan Meals</span></div>
-              <div className="nx-action"><i className="fas fa-running"></i><span>Workout Plan</span></div>
+              <div className="nx-action" onClick={()=>navigate('/tasks')}><i className="fas fa-plus"></i><span>Add Task</span></div>
+              <div className="nx-action" onClick={()=>navigate('/schedule')}><i className="fas fa-calendar-plus"></i><span>Schedule Event</span></div>
+              <div className="nx-action" onClick={()=>navigate('/health')}><i className="fas fa-utensils"></i><span>Plan Meals</span></div>
+              <div className="nx-action" onClick={()=>navigate('/health')}><i className="fas fa-running"></i><span>Workout Plan</span></div>
             </div>
           </section>
 

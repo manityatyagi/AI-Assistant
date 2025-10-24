@@ -9,7 +9,7 @@ import '../styles/dashboard.css';
 const Finance = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { items, summary, status } = useSelector(s => s.finance);
+  const { items, summary, status, error } = useSelector(s => s.finance);
 
   const [form, setForm] = useState({ amount: '', category: '', note: '', date: '' });
   useEffect(() => {
@@ -87,6 +87,11 @@ const Finance = () => {
           <div className="nx-card nx-card--lightblue">
             <div className="nx-card-header"><div className="nx-card-title">Recent Transactions</div></div>
             {status==='loading' && <Loader label="Loading expenses..." />}
+            {status==='failed' && error && (
+              <div style={{ marginBottom:12, padding:'10px 12px', border:'1px solid rgba(255,107,107,.4)', borderRadius:12, color:'#ffb3b3', background:'rgba(255,107,107,.08)' }}>
+                <i className="fas fa-triangle-exclamation" /> {error}
+              </div>
+            )}
             {status!=='loading' && items.length===0 && <Empty title="No expenses yet" subtitle="Add your first transaction" />}
             <ul className="nx-list">
               {items.slice(0, 8).map(e => (
