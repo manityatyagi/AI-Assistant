@@ -24,9 +24,9 @@ const MessageArea = () => {
         background:'rgba(255,255,255,.03)',
         overflow:'hidden'
       }}>
-        <div style={{ padding:'10px 14px', borderBottom:'1px solid rgba(255,255,255,.06)', display:'flex', alignItems:'center', gap:10 }}>
+          <div style={{ padding:'10px 14px', borderBottom:'1px solid rgba(255,255,255,.06)', display:'flex', alignItems:'center', gap:10 }}>
           <i className="fas fa-robot" style={{ color:'#24e4ac' }} />
-          <div style={{ color:'#f8f9f', fontWeight:'700'}}>Nexus Assistant</div>
+          <div style={{ color:'#f8f9ff', fontWeight:'700'}}>Nexus Assistant</div>
           <div style={{ marginLeft:'auto', fontSize:12, color:'#a9add6' }}>{status==='loading' ? 'Thinking…' : 'Online'}</div>
         </div>
 

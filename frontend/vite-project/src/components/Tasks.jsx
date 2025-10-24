@@ -6,7 +6,7 @@ import Empty from './ui/Empty.jsx'
 
 const Tasks = () => {
   const dispatch = useDispatch()
-  const { items, status } = useSelector(s => s.tasks)
+  const { items, status, error } = useSelector(s => s.tasks)
   const [text, setText] = useState('')
 
   useEffect(()=>{ dispatch(fetchTasks()) }, [dispatch])
@@ -28,6 +28,11 @@ const Tasks = () => {
       </div>
 
       {status==='loading' && <Loader label="Loading tasks..." />}
+      {status==='failed' && error && (
+        <div style={{ marginBottom:12, padding:'10px 12px', border:'1px solid rgba(255,107,107,.4)', borderRadius:12, color:'#ffb3b3', background:'rgba(255,107,107,.08)' }}>
+          <i className="fas fa-triangle-exclamation" /> {error}
+        </div>
+      )}
 
       {status!=='loading' && items.length===0 && (
         <Empty title="No tasks yet" subtitle="Create your first task to get started" />
